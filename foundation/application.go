@@ -2,6 +2,7 @@ package foundation
 
 import (
 	"github.com/melodywen/go-box/contracts/foundation"
+	log2 "github.com/melodywen/go-box/contracts/log"
 	"github.com/melodywen/go-box/contracts/support"
 	"github.com/melodywen/go-box/events"
 	"github.com/melodywen/go-box/log"
@@ -16,8 +17,8 @@ type Application struct {
 	hasBeenBootstrapped bool                               //Indicates if the application has been bootstrapped before.
 	serviceProviders    []support.ServiceProviderInterface // All of the registered service providers.
 	loadedProviders     map[string]bool                    //The names of the loaded service providers.
-
-	booted bool
+	Log                 log2.LoggerInterface
+	booted              bool
 }
 
 // NewApplication Create a new Illuminate application instance.
@@ -43,16 +44,17 @@ func (app *Application) registerBaseBindings() {
 // Register all of the base service providers.
 func (app *Application) registerBaseServiceProviders() {
 	app.Register(events.NewEventServiceProvider(app), false)
-	app.Register(log.NewLogServiceProvider(app), false)
+	app.Register(log.NewLoggerServiceProvider(app), false)
 	logrus.Warnln("todo: 待实现 RoutingServiceProvider")
 }
 
 // Register the core class aliases in the container.
 func (app *Application) registerCoreContainerAliases() {
+	var loggerInterface log2.LoggerInterface
 	aliases := map[string][]interface{}{
 		"app":    []interface{}{app, container.Container{}},
 		"events": []interface{}{},
-		"log":    []interface{}{},
+		"log":    []interface{}{&loggerInterface},
 	}
 	for key, aliases := range aliases {
 		for _, alias := range aliases {
