@@ -2,28 +2,47 @@ package support
 
 import "github.com/melodywen/go-box/contracts/foundation"
 
+// ServiceProvider struct
 type ServiceProvider struct {
 	App              foundation.ApplicationInterface
 	BootingCallbacks []func()
 	BootedCallbacks  []func()
 }
 
+// NewServiceProvider Create a new service provider instance
 func NewServiceProvider(app foundation.ApplicationInterface) *ServiceProvider {
 	return &ServiceProvider{App: app}
 }
 
+// Boot Bootstrap any application services.
+func (provider *ServiceProvider) Boot() {
+}
+
+// Register any application services.
 func (provider *ServiceProvider) Register() {
 
 }
-func (provider *ServiceProvider) Booting() {
-	panic("implement me")
+
+// Booting Register a booting callback to be run before the "boot" method is called.
+func (provider *ServiceProvider) Booting(callback func()) {
+	provider.BootingCallbacks = append(provider.BootingCallbacks, callback)
 }
-func (provider *ServiceProvider) Booted() {
-	panic("implement me")
+
+// Booted Register a booted callback to be run after the "boot" method is called.
+func (provider *ServiceProvider) Booted(callback func()) {
+	provider.BootedCallbacks = append(provider.BootedCallbacks, callback)
 }
+
+// CallBootingCallbacks Call the registered booting callbacks.
 func (provider *ServiceProvider) CallBootingCallbacks() {
-	panic("implement me")
+	for _, callback := range provider.BootingCallbacks {
+		callback()
+	}
 }
+
+// CallBootedCallbacks Call the registered booted callbacks.
 func (provider *ServiceProvider) CallBootedCallbacks() {
-	panic("implement me")
+	for _, callback := range provider.BootedCallbacks {
+		callback()
+	}
 }

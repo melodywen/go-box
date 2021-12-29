@@ -4,6 +4,7 @@ import (
 	"github.com/melodywen/go-box/contracts/foundation"
 	"github.com/melodywen/go-box/contracts/support"
 	"github.com/melodywen/go-box/events"
+	"github.com/melodywen/go-box/log"
 	container "github.com/melodywen/go-ioc"
 	"github.com/sirupsen/logrus"
 	"reflect"
@@ -22,9 +23,9 @@ type Application struct {
 // NewApplication Create a new Illuminate application instance.
 func NewApplication() *Application {
 	app := &Application{
-		Container: *container.NewContainer(),
+		Container:        *container.NewContainer(),
 		serviceProviders: []support.ServiceProviderInterface{},
-		loadedProviders: map[string]bool{},
+		loadedProviders:  map[string]bool{},
 	}
 
 	app.registerBaseBindings()
@@ -38,13 +39,26 @@ func (app *Application) registerBaseBindings() {
 	app.Instance(&App, app)
 	app.Instance(&app, app)
 }
+
+// Register all of the base service providers.
 func (app *Application) registerBaseServiceProviders() {
 	app.Register(events.NewEventServiceProvider(app), false)
-	logrus.Warnln("todo: 待实现 LogServiceProvider")
+	app.Register(log.NewLogServiceProvider(app), false)
 	logrus.Warnln("todo: 待实现 RoutingServiceProvider")
 }
+
+// Register the core class aliases in the container.
 func (app *Application) registerCoreContainerAliases() {
-	logrus.Warnln("todo: 待实现 registerCoreContainerAliases")
+	aliases := map[string][]interface{}{
+		"app":    []interface{}{app, container.Container{}},
+		"events": []interface{}{},
+		"log":    []interface{}{},
+	}
+	for key, aliases := range aliases {
+		for _, alias := range aliases {
+			app.Alias(key, alias)
+		}
+	}
 }
 
 // Register a service provider with the application.
@@ -67,7 +81,9 @@ func (app *Application) Register(provider support.ServiceProviderInterface, forc
 	// If the application has already booted, we will call this boot method on
 	// the provider class so it has an opportunity to do its boot logic and
 	// will be ready for any usage by this developer's application logic.
+	if app.isBooted() {
 
+	}
 
 	return provider
 }
@@ -102,6 +118,13 @@ func (app *Application) GetProviders(provider support.ServiceProviderInterface) 
 // Determine if the application has booted.
 func (app *Application) isBooted() bool {
 	return app.booted
+}
+
+// Boot the given service provider.
+func (app *Application) bootProvider(provider support.ServiceProviderInterface) {
+	provider.CallBootingCallbacks()
+	provider.Boot()
+	provider.CallBootedCallbacks()
 }
 
 func (app *Application) HasBeenBootstrapped() bool {
