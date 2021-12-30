@@ -124,8 +124,9 @@ func (dispatcher *Dispatcher) Subscribe() {
 	panic("implement me")
 }
 
-func (dispatcher *Dispatcher) Until() {
-	panic("implement me")
+// Until Dispatch an event until the first non-null response is returned.
+func (dispatcher *Dispatcher) Until(event interface{}, payload interface{}) interface{} {
+	return dispatcher.Dispatch(event, payload, true)
 }
 
 // Dispatch Fire an event and call the listeners.
@@ -177,7 +178,8 @@ func (dispatcher *Dispatcher) parseEventAndPayload(event interface{}, payload in
 	return eventOut, wrapPayload
 }
 
-func (dispatcher *Dispatcher) Push() {
+// Push Register an event and payload to be fired later.
+func (dispatcher *Dispatcher) Push(event interface{}, payload interface{}) {
 	panic("implement me")
 }
 

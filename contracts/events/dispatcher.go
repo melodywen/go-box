@@ -11,11 +11,11 @@ type DispatcherInterface interface {
 	// Subscribe Register an event subscriber with the dispatcher.
 	Subscribe()
 	// Until Dispatch an event until the first non-null response is returned.
-	Until()
+	Until(event interface{}, payload interface{}) interface{}
 	// Dispatch an event and call the listeners.
 	Dispatch(event interface{}, payload interface{}, halt bool) interface{}
 	// Push Register an event and payload to be fired later.
-	Push()
+	Push(event interface{}, payload interface{})
 	// Flush a set of pushed events.
 	Flush()
 	// Forget Remove a set of listeners from the dispatcher.
