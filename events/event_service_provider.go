@@ -1,7 +1,7 @@
 package events
 
 import (
-	"fmt"
+	"github.com/melodywen/go-box/contracts/events"
 	"github.com/melodywen/go-box/contracts/foundation"
 	"github.com/melodywen/go-box/support"
 )
@@ -18,7 +18,7 @@ func NewEventServiceProvider(app foundation.ApplicationInterface) *EventServiceP
 
 // Register rewrite method
 func (provider *EventServiceProvider) Register() {
-	provider.App.Singleton("events", func(app foundation.ApplicationInterface) {
-		fmt.Println("这是一个 event 的具体实现")
+	provider.App.Singleton("events", func(app foundation.ApplicationInterface) events.DispatcherInterface {
+		return NewDispatcher(app)
 	})
 }

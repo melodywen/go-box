@@ -36,7 +36,7 @@ func TestApplication_GetProviders(t *testing.T) {
 			fields: fields{serviceProviders: []support.ServiceProviderInterface{
 				events.NewEventServiceProvider(app),
 			}},
-			args: args{provider: log.NewLogServiceProvider(app)},
+			args: args{provider: log.NewLoggerServiceProvider(app)},
 			want: []support.ServiceProviderInterface{},
 		},
 	}

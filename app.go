@@ -1,6 +1,5 @@
 package main
 
-import "C"
 import (
 	"github.com/melodywen/go-box/contracts/foundation"
 	"github.com/melodywen/go-box/contracts/http"
