@@ -14,7 +14,7 @@ func TestDispatcher_Listen(t *testing.T) {
 		app            interface{}
 		listeners      map[string][]events.WrapListenerFun
 		wildcards      map[string][]events.WrapListenerFun
-		wildcardsCache []string
+		wildcardsCache map[string][]events.WrapListenerFun
 		queueResolver  interface{}
 	}
 	type args struct {
@@ -74,7 +74,7 @@ func TestDispatcher_HasListeners(t *testing.T) {
 		app            interface{}
 		listeners      map[string][]events.WrapListenerFun
 		wildcards      map[string][]events.WrapListenerFun
-		wildcardsCache []string
+		wildcardsCache map[string][]events.WrapListenerFun
 		queueResolver  interface{}
 	}
 	type args struct {
@@ -91,8 +91,9 @@ func TestDispatcher_HasListeners(t *testing.T) {
 		{
 			name: "测试标准值",
 			fields: fields{
-				listeners: map[string][]events.WrapListenerFun{},
-				wildcards: map[string][]events.WrapListenerFun{},
+				listeners:      map[string][]events.WrapListenerFun{},
+				wildcards:      map[string][]events.WrapListenerFun{},
+				wildcardsCache: map[string][]events.WrapListenerFun{},
 			},
 			args: args{
 				event:  "abc",
@@ -105,8 +106,9 @@ func TestDispatcher_HasListeners(t *testing.T) {
 		}, {
 			name: "测试模糊匹配",
 			fields: fields{
-				listeners: map[string][]events.WrapListenerFun{},
-				wildcards: map[string][]events.WrapListenerFun{},
+				listeners:      map[string][]events.WrapListenerFun{},
+				wildcards:      map[string][]events.WrapListenerFun{},
+				wildcardsCache: map[string][]events.WrapListenerFun{},
 			},
 			args: args{
 				event:  "abbcc",
@@ -141,7 +143,7 @@ func TestDispatcher_Dispatch(t *testing.T) {
 		app            interface{}
 		listeners      map[string][]events.WrapListenerFun
 		wildcards      map[string][]events.WrapListenerFun
-		wildcardsCache []string
+		wildcardsCache map[string][]events.WrapListenerFun
 		queueResolver  interface{}
 	}
 	type args struct {
@@ -160,32 +162,56 @@ func TestDispatcher_Dispatch(t *testing.T) {
 		{
 			name: "测试标准值",
 			fields: fields{
-				listeners: map[string][]events.WrapListenerFun{},
-				wildcards: map[string][]events.WrapListenerFun{},
+				listeners:      map[string][]events.WrapListenerFun{},
+				wildcards:      map[string][]events.WrapListenerFun{},
+				wildcardsCache: map[string][]events.WrapListenerFun{},
 			},
 			args: args{
-				event: "abc",
-				events: "abc",
-				payload: mock.Dog{Name:"tom",Age:13},
+				event:   "abc",
+				events:  "abc",
+				payload: mock.Dog{Name: "tom", Age: 13},
 				listener: func(args ...interface{}) interface{} {
-					return 1
+					value := args[0].(mock.Dog)
+					value.Age += 1
+					return value
 				},
 			},
-			want: []interface{}{},
-		},{
+			want: []interface{}{mock.Dog{Name: "tom", Age: 14}},
+		}, {
+			name: "测试标准值并且模糊匹配",
+			fields: fields{
+				listeners:      map[string][]events.WrapListenerFun{},
+				wildcards:      map[string][]events.WrapListenerFun{},
+				wildcardsCache: map[string][]events.WrapListenerFun{},
+			},
+			args: args{
+				event:   "absdsfc",
+				events:  "ab*c",
+				payload: mock.Dog{Name: "tom", Age: 13},
+				listener: func(args ...interface{}) interface{} {
+					value := args[1].([]interface{})
+					dog := value[0].(mock.Dog)
+					dog.Age += 1
+					return dog
+				},
+			},
+			want: []interface{}{mock.Dog{Name: "tom", Age: 14}},
+		}, {
 			name: "测试结构体",
 			fields: fields{
-				listeners: map[string][]events.WrapListenerFun{},
-				wildcards: map[string][]events.WrapListenerFun{},
+				listeners:      map[string][]events.WrapListenerFun{},
+				wildcards:      map[string][]events.WrapListenerFun{},
+				wildcardsCache: map[string][]events.WrapListenerFun{},
 			},
 			args: args{
-				event:  &mock.Dog{},
-				events: "abc",
+				event:   mock.Dog{Name: "tom2", Age: 20},
+				events:  mock.Dog{},
+				payload: mock.Dog{Name: "tom", Age: 13},
 				listener: func(args ...interface{}) interface{} {
-					return 1
+					return args[0]
 				},
 			},
-			want: []interface{}{},
+			want: []interface{}{mock.Dog{Name: "tom2", Age: 20}},
 		},
 	}
 	for _, tt := range tests {
@@ -199,7 +225,7 @@ func TestDispatcher_Dispatch(t *testing.T) {
 			}
 			dispatcher.Listen(tt.args.events, tt.args.listener)
 			got := dispatcher.Dispatch(tt.args.event, tt.args.payload, tt.args.halt)
-			if !reflect.DeepEqual(got ,tt.want) {
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("HasListeners() = %v, want %v", got, tt.want)
 			}
 		})

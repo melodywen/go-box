@@ -1,7 +1,6 @@
 package events
 
 import (
-	"fmt"
 	"github.com/melodywen/go-box/collections"
 	contractsEvents "github.com/melodywen/go-box/contracts/events"
 	"github.com/melodywen/go-box/support"
@@ -14,7 +13,7 @@ type Dispatcher struct {
 	app            contracts.ContainerContract
 	listeners      map[string][]contractsEvents.WrapListenerFun
 	wildcards      map[string][]contractsEvents.WrapListenerFun
-	wildcardsCache []string
+	wildcardsCache map[string][]contractsEvents.WrapListenerFun
 	queueResolver  interface{}
 }
 
@@ -23,7 +22,7 @@ func NewDispatcher(app contracts.ContainerContract) *Dispatcher {
 		app:            app,
 		listeners:      map[string][]contractsEvents.WrapListenerFun{},
 		wildcards:      map[string][]contractsEvents.WrapListenerFun{},
-		wildcardsCache: nil,
+		wildcardsCache: map[string][]contractsEvents.WrapListenerFun{},
 		queueResolver:  nil,
 	}
 }
@@ -42,7 +41,8 @@ func (dispatcher *Dispatcher) Listen(events interface{}, listener contractsEvent
 		eventsIndex = append(eventsIndex, dispatcher.app.AbstractToString(events))
 	}
 	for _, index := range eventsIndex {
-		if strings.Contains(index, "*") {
+		// first char cannot "*"
+		if strings.Contains(strings.TrimLeft(index, "*"), "*") {
 			dispatcher.setupWildcardListen(index, listener)
 		} else {
 			if dispatcher.listeners[index] == nil {
@@ -59,7 +59,7 @@ func (dispatcher *Dispatcher) setupWildcardListen(event string, listener contrac
 		dispatcher.wildcards[event] = make([]contractsEvents.WrapListenerFun, 0)
 	}
 	dispatcher.wildcards[event] = append(dispatcher.wildcards[event], dispatcher.MakeListener(listener, true))
-	dispatcher.wildcardsCache = []string{}
+	dispatcher.wildcardsCache = map[string][]contractsEvents.WrapListenerFun{}
 }
 
 // MakeListener Register an event listener with the dispatcher.
@@ -95,13 +95,29 @@ func (dispatcher *Dispatcher) hasWildcardListeners(event string) bool {
 }
 
 // GetListeners Get all of the listeners for a given event name.
-func (dispatcher *Dispatcher) getWildcardListeners() {
-	panic("implement me")
+func (dispatcher *Dispatcher) getWildcardListeners(event string) (wildcards []contractsEvents.WrapListenerFun) {
+	for index, fun := range dispatcher.wildcards {
+		if (support.StrFun{}).Is(index, event) {
+			wildcards = append(wildcards, fun...)
+		}
+	}
+	dispatcher.wildcardsCache[event] = wildcards
+	return wildcards
 }
 
 // GetListeners Get all of the listeners for a given event name.
-func (dispatcher *Dispatcher) GetListeners() {
-	panic("implement me")
+func (dispatcher *Dispatcher) GetListeners(event interface{}) (response []contractsEvents.WrapListenerFun) {
+	eventIndex := dispatcher.app.AbstractToString(event)
+	if value, ok := dispatcher.listeners[eventIndex]; ok {
+		response = append(response, value...)
+	}
+	if value, ok := dispatcher.wildcardsCache[eventIndex]; ok {
+		response = append(response, value...)
+	} else {
+		value := dispatcher.getWildcardListeners(eventIndex)
+		response = append(response, value...)
+	}
+	return response
 }
 
 func (dispatcher *Dispatcher) Subscribe() {
@@ -113,7 +129,7 @@ func (dispatcher *Dispatcher) Until() {
 }
 
 // Dispatch Fire an event and call the listeners.
-func (dispatcher *Dispatcher) Dispatch(event interface{}, payload interface{}, halt bool) []interface{} {
+func (dispatcher *Dispatcher) Dispatch(event interface{}, payload interface{}, halt bool) interface{} {
 	// When the given "event" is actually an object we will assume it is an event
 	// object and use the class as the event name and this event itself as the
 	// payload to the handler, which makes object based events quite simple.
@@ -124,11 +140,29 @@ func (dispatcher *Dispatcher) Dispatch(event interface{}, payload interface{}, h
 
 	responses := make([]interface{}, 0)
 
-	fmt.Println(responses)
+	for _, listener := range dispatcher.GetListeners(event) {
+		response := listener(event.(string), wrapPayload)
 
-	fmt.Println(212313221, event, wrapPayload)
+		// If a response is returned from the listener and event halting is enabled
+		// we will just return this response, and not call the rest of the event
+		// listeners. Otherwise we will add the response on the response list.
+		if halt && response != nil {
+			return response
+		}
 
-	return []interface{}{1, 2, 3}
+		// If a boolean false is returned from a listener, we will stop propagating
+		// the event to any further listeners down in the chain, else we keep on
+		// looping through the listeners and firing every one in our sequence.
+		if value, ok := response.(bool); ok && !value {
+			break
+		}
+
+		responses = append(responses, response)
+	}
+	if halt {
+		return nil
+	}
+	return responses
 }
 
 // Parse the given event and payload and prepare them for dispatching.

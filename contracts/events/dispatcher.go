@@ -13,7 +13,7 @@ type DispatcherInterface interface {
 	// Until Dispatch an event until the first non-null response is returned.
 	Until()
 	// Dispatch an event and call the listeners.
-	Dispatch(event interface{}, payload interface{}, halt bool) []interface{}
+	Dispatch(event interface{}, payload interface{}, halt bool) interface{}
 	// Push Register an event and payload to be fired later.
 	Push()
 	// Flush a set of pushed events.
