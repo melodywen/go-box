@@ -7,13 +7,13 @@ type DispatcherInterface interface {
 	// Listen Register an event listener with the dispatcher.
 	Listen(events interface{}, listener ListenerFun)
 	// HasListeners Determine if a given event has listeners.
-	HasListeners()
+	HasListeners(event interface{}) bool
 	// Subscribe Register an event subscriber with the dispatcher.
 	Subscribe()
 	// Until Dispatch an event until the first non-null response is returned.
 	Until()
 	// Dispatch an event and call the listeners.
-	Dispatch()
+	Dispatch(event interface{}, payload interface{}, halt bool) []interface{}
 	// Push Register an event and payload to be fired later.
 	Push()
 	// Flush a set of pushed events.
