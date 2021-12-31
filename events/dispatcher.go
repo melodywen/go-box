@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// Dispatcher dispatcher struct
 type Dispatcher struct {
 	app            contracts.ContainerContract
 	listeners      map[string][]contractsEvents.WrapListenerFun
@@ -17,6 +18,7 @@ type Dispatcher struct {
 	queueResolver  interface{}
 }
 
+// NewDispatcher new dispatcher instance
 func NewDispatcher(app contracts.ContainerContract) *Dispatcher {
 	return &Dispatcher{
 		app:            app,
@@ -86,7 +88,7 @@ func (dispatcher *Dispatcher) HasListeners(event interface{}) bool {
 
 // hasWildcardListeners Determine if the given event has any wildcard listeners.
 func (dispatcher *Dispatcher) hasWildcardListeners(event string) bool {
-	for index, _ := range dispatcher.wildcards {
+	for index := range dispatcher.wildcards {
 		if (support.StrFun{}).Is(index, event) {
 			return true
 		}
@@ -118,10 +120,6 @@ func (dispatcher *Dispatcher) GetListeners(event interface{}) (response []contra
 		response = append(response, value...)
 	}
 	return response
-}
-
-func (dispatcher *Dispatcher) Subscribe() {
-	panic("implement me")
 }
 
 // Until Dispatch an event until the first non-null response is returned.
@@ -183,14 +181,22 @@ func (dispatcher *Dispatcher) Push(event interface{}, payload interface{}) {
 	panic("implement me")
 }
 
+// Subscribe Register an event subscriber with the dispatcher.
+func (dispatcher *Dispatcher) Subscribe() {
+	panic("implement me")
+}
+
+// Flush a set of pushed events.
 func (dispatcher *Dispatcher) Flush() {
 	panic("implement me")
 }
 
+// Forget Remove a set of listeners from the dispatcher.
 func (dispatcher *Dispatcher) Forget() {
 	panic("implement me")
 }
 
+// ForgetPushed Forget all of the queued listeners.
 func (dispatcher *Dispatcher) ForgetPushed() {
 	panic("implement me")
 }

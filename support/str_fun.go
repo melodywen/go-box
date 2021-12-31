@@ -20,6 +20,6 @@ func (_ StrFun) Is(pattern string, value string) bool {
 	// to make it convenient to check if the strings starts with the given
 	// pattern such as "library/*", making any string check convenient.
 	pattern = strings.ReplaceAll(pattern, "*", ".*")
-	match, _ := regexp.MatchString(pattern, value)
+	match, _ := regexp.MatchString("^"+pattern+"$", value)
 	return match
 }
