@@ -5,7 +5,7 @@ type KernelInterface interface {
 	// Bootstrap the application for HTTP requests.
 	Bootstrap()
 
-	// Handle  an incoming HTTP request.
+	// Handle  init kernel
 	Handle()
 
 	// Terminate Perform any final actions for the request lifecycle.

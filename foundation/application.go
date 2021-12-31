@@ -1,6 +1,7 @@
 package foundation
 
 import (
+	events2 "github.com/melodywen/go-box/contracts/events"
 	"github.com/melodywen/go-box/contracts/foundation"
 	log2 "github.com/melodywen/go-box/contracts/log"
 	"github.com/melodywen/go-box/contracts/support"
@@ -8,7 +9,6 @@ import (
 	"github.com/melodywen/go-box/log"
 	container "github.com/melodywen/go-ioc"
 	"github.com/sirupsen/logrus"
-	"reflect"
 )
 
 // Application app struct
@@ -35,6 +35,7 @@ func NewApplication() *Application {
 	return app
 }
 
+// Register the basic bindings into the container.
 func (app *Application) registerBaseBindings() {
 	var App foundation.ApplicationInterface
 	app.Instance(&App, app)
@@ -51,9 +52,10 @@ func (app *Application) registerBaseServiceProviders() {
 // Register the core class aliases in the container.
 func (app *Application) registerCoreContainerAliases() {
 	var loggerInterface log2.LoggerInterface
+	var dispatcherInterface events2.DispatcherInterface
 	aliases := map[string][]interface{}{
 		"app":    []interface{}{app, container.Container{}},
-		"events": []interface{}{},
+		"events": []interface{}{&dispatcherInterface, events.Dispatcher{}, &events.Dispatcher{}},
 		"log":    []interface{}{&loggerInterface},
 	}
 	for key, aliases := range aliases {
@@ -63,62 +65,8 @@ func (app *Application) registerCoreContainerAliases() {
 	}
 }
 
-// Register a service provider with the application.
-func (app *Application) Register(provider support.ServiceProviderInterface, force bool) support.ServiceProviderInterface {
-	if registered := app.GetProvider(provider); registered != nil && !force {
-		return registered
-	}
-
-	provider.Register()
-
-	// If there are bindings / singletons set as properties on the provider we
-	// will spin through them and register them with the application, which
-	// serves as a convenience layer while registering a lot of bindings.
-
-	// todo bindings
-	// todo singletons
-
-	app.markAsRegistered(provider)
-
-	// If the application has already booted, we will call this boot method on
-	// the provider class so it has an opportunity to do its boot logic and
-	// will be ready for any usage by this developer's application logic.
-	if app.isBooted() {
-
-	}
-
-	return provider
-}
-
-// Mark the given provider as registered.
-func (app *Application) markAsRegistered(provider support.ServiceProviderInterface) {
-	app.serviceProviders = append(app.serviceProviders, provider)
-
-	app.loadedProviders[app.AbstractToString(provider)] = true
-}
-
-// GetProvider Get the registered service provider instance if it exists.
-func (app *Application) GetProvider(provider support.ServiceProviderInterface) support.ServiceProviderInterface {
-	result := app.GetProviders(provider)
-	if len(result) == 0 {
-		return nil
-	}
-	return result[0]
-}
-
-// GetProviders Get the registered service provider instances if any exist.
-func (app *Application) GetProviders(provider support.ServiceProviderInterface) []support.ServiceProviderInterface {
-	obj := make([]support.ServiceProviderInterface, 0)
-	for _, serviceProvider := range app.serviceProviders {
-		if reflect.TypeOf(serviceProvider) == reflect.TypeOf(provider) {
-			obj = append(obj, serviceProvider)
-		}
-	}
-	return obj
-}
-
-// Determine if the application has booted.
-func (app *Application) isBooted() bool {
+// IsBooted Determine if the application has booted.
+func (app *Application) IsBooted() bool {
 	return app.booted
 }
 
@@ -129,13 +77,4 @@ func (app *Application) bootProvider(provider support.ServiceProviderInterface) 
 	provider.CallBootedCallbacks()
 }
 
-func (app *Application) HasBeenBootstrapped() bool {
-	return app.hasBeenBootstrapped
-}
 
-func (app *Application) BootstrapWith(bootstrappers []foundation.BootstrapInterface) {
-	app.hasBeenBootstrapped = true
-	for _, bootstrapper := range bootstrappers {
-		bootstrapper.Bootstrap(app)
-	}
-}

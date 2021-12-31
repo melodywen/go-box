@@ -22,7 +22,4 @@ func (provider *LoggerServiceProvider) Register() {
 	provider.App.Singleton("log", func(app foundation.ApplicationInterface) log.LoggerInterface {
 		return newLogManager(app)
 	})
-
-	result := provider.App.Make("log").(log.LoggerInterface)
-	result.Info("已经成功注入了log", nil)
 }

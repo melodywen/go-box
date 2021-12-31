@@ -15,9 +15,7 @@ func main() {
 		logrus.Panicln("获取 http kernel 失败")
 	}
 
-	httpKernel.Bootstrap()
-
-
+	httpKernel.Handle()
 
 
 	fmt.Println(httpKernel)
