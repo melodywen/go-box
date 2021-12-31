@@ -5,11 +5,13 @@ import (
 	"github.com/melodywen/go-ioc/contracts"
 )
 
+// BootstrapInterface bootstrap contract
 type BootstrapInterface interface {
 	// Bootstrap Register services.
 	Bootstrap(app ApplicationInterface)
 }
 
+// ApplicationInterface application contract
 type ApplicationInterface interface {
 	contracts.ContainerContract
 	//Version Get the version number of the application.

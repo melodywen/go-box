@@ -1,8 +1,12 @@
 package events
 
+// ListenerFun listener function contract
 type ListenerFun func(args ...interface{}) interface{}
+
+// WrapListenerFun warp listener function contract
 type WrapListenerFun func(event string, payload []interface{}) interface{}
 
+// DispatcherInterface  dispatcher contract
 type DispatcherInterface interface {
 	// Listen Register an event listener with the dispatcher.
 	Listen(events interface{}, listener ListenerFun)

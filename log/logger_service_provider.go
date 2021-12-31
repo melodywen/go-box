@@ -20,6 +20,6 @@ func NewLoggerServiceProvider(app foundation.ApplicationInterface) *LoggerServic
 func (provider *LoggerServiceProvider) Register() {
 
 	provider.App.Singleton("log", func(app foundation.ApplicationInterface) log.LoggerInterface {
-		return newLogManager(app)
+		return NewLoggerManager(app)
 	})
 }
