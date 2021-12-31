@@ -6,6 +6,7 @@ import (
 )
 
 type BootstrapInterface interface {
+	// Bootstrap Register services.
 	Bootstrap(app ApplicationInterface)
 }
 

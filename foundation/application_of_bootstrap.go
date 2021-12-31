@@ -3,6 +3,7 @@ package foundation
 import (
 	events2 "github.com/melodywen/go-box/contracts/events"
 	"github.com/melodywen/go-box/contracts/foundation"
+	log2 "github.com/melodywen/go-box/contracts/log"
 )
 
 // HasBeenBootstrapped Determine if the application has been bootstrapped before.
@@ -20,4 +21,20 @@ func (app *Application) BootstrapWith(bootstrappers []foundation.BootstrapInterf
 		bootstrapper.Bootstrap(app)
 		dispatcher.Dispatch("bootstrapped:"+app.AbstractToString(bootstrapper), app, false)
 	}
+}
+
+// BootstrapOpenListen bootstrap open listened
+func (app *Application) BootstrapOpenListen() {
+	var dispatcher events2.DispatcherInterface
+	dispatcher = app.Make("events").(events2.DispatcherInterface)
+	var log log2.LoggerInterface
+	log = app.Make("log").(log2.LoggerInterface)
+	dispatcher.Listen("bootstrapping:*", func(args ...interface{}) interface{} {
+		log.Info(args[0].(string), nil)
+		return nil
+	})
+	dispatcher.Listen("bootstrapped:*", func(args ...interface{}) interface{} {
+		log.Info(args[0].(string), nil)
+		return nil
+	})
 }

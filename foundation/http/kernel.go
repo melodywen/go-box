@@ -1,9 +1,7 @@
 package http
 
 import (
-	events2 "github.com/melodywen/go-box/contracts/events"
 	"github.com/melodywen/go-box/contracts/foundation"
-	log2 "github.com/melodywen/go-box/contracts/log"
 	"github.com/melodywen/go-box/foundation/bootstrap"
 	"github.com/sirupsen/logrus"
 )
@@ -46,27 +44,9 @@ func (k *Kernel) getBootstrappers() []foundation.BootstrapInterface {
 
 // Bootstrap the application for HTTP requests.
 func (k *Kernel) Bootstrap() {
-	k.bootstrapListen()
 	if !k.app.HasBeenBootstrapped() {
 		k.app.BootstrapWith(k.getBootstrappers())
 	}
-}
-
-// bootstrapListen add bootstrap to listen fun
-func (k *Kernel) bootstrapListen() {
-	var dispatcher events2.DispatcherInterface
-	dispatcher = k.app.Make("events").(events2.DispatcherInterface)
-	var log log2.LoggerInterface
-	log = k.app.Make("log").(log2.LoggerInterface)
-
-	dispatcher.Listen("bootstrapping:*", func(args ...interface{}) interface{} {
-		log.Info(args[0].(string), nil)
-		return nil
-	})
-	dispatcher.Listen("bootstrapped:*", func(args ...interface{}) interface{} {
-		log.Info(args[0].(string), nil)
-		return nil
-	})
 }
 
 // Handle init kernel

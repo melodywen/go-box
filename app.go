@@ -12,8 +12,9 @@ var App foundation.ApplicationInterface
 
 // init App
 func init() {
-	App = foundation2.NewApplication()
-
+	app := foundation2.NewApplication()
+	App = app
+	app.BootstrapOpenListen()
 	var httpKernel http.KernelInterface
 	App.Singleton(&httpKernel, http2.NewKernel)
 }

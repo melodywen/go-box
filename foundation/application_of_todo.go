@@ -56,9 +56,6 @@ func (app *Application) ResolveProvider() {
 	panic("implement me")
 }
 
-func (app *Application) Boot() {
-	panic("implement me")
-}
 
 func (app *Application) Booting() {
 	panic("implement me")
