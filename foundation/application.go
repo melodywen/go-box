@@ -11,6 +11,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var version string = "1.0.0"
+
 // Application app struct
 type Application struct {
 	container.Container
@@ -65,6 +67,10 @@ func (app *Application) registerCoreContainerAliases() {
 	}
 }
 
+func (app *Application) Version() string {
+	return version
+}
+
 // IsBooted Determine if the application has booted.
 func (app *Application) IsBooted() bool {
 	return app.booted
@@ -76,5 +82,3 @@ func (app *Application) bootProvider(provider support.ServiceProviderInterface) 
 	provider.Boot()
 	provider.CallBootedCallbacks()
 }
-
-

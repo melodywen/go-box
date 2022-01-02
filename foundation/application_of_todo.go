@@ -1,9 +1,5 @@
 package foundation
 
-func (app *Application) Version() string {
-	panic("implement me")
-}
-
 func (app *Application) BasePath() {
 	panic("implement me")
 }

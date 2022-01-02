@@ -53,3 +53,24 @@ func TestApplication_GetProviders(t *testing.T) {
 		})
 	}
 }
+
+func TestApplication_Version(t *testing.T) {
+
+	tests := []struct {
+		name string
+		want string
+	}{
+		{
+			name: "测试版本号",
+			want: "1.0.0",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			app := NewApplication()
+			if got := app.Version(); got != tt.want {
+				t.Errorf("Version() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
