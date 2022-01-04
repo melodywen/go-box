@@ -1,0 +1,20 @@
+time: 100
+cacheInterface: [ "file","database" ,"redis" ]
+
+driver:
+  default:
+    name: "${driverName}"
+    entrypoint: "${port||8080}"
+    entrypoint2: "$ {port||8080}"
+driver1:
+  default:
+    0: "${driverName||aabb}"
+    1: "${port||8080}"
+driver2:
+  - "${driverName||default}"
+  - "${port||8080}"
+
+driver3:
+  - [ "${driverName||default}","${PATH}" ]
+  - "${port||8080}"
+is_active: 3
