@@ -2,7 +2,7 @@ package events
 
 import (
 	"fmt"
-	"github.com/melodywen/go-box/contracts/events"
+	"github.com/melodywen/go-box/illuminate/contracts/events"
 	"github.com/melodywen/go-box/mock"
 	container "github.com/melodywen/go-ioc"
 	"reflect"

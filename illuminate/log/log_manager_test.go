@@ -1,7 +1,7 @@
 package log
 
 import (
-	"github.com/melodywen/go-box/contracts/foundation"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
 	"testing"
 )
 

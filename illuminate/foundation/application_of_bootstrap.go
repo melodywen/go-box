@@ -1,9 +1,9 @@
 package foundation
 
 import (
-	events2 "github.com/melodywen/go-box/contracts/events"
-	"github.com/melodywen/go-box/contracts/foundation"
-	log2 "github.com/melodywen/go-box/contracts/log"
+	events2 "github.com/melodywen/go-box/illuminate/contracts/events"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+	log2 "github.com/melodywen/go-box/illuminate/contracts/log"
 )
 
 // HasBeenBootstrapped Determine if the application has been bootstrapped before.

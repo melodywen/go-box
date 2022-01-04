@@ -1,6 +1,8 @@
 package config
 
-import "github.com/melodywen/go-box/contracts/support"
+import (
+	"github.com/melodywen/go-box/illuminate/contracts/support"
+)
 
 var EagerServices []support.ServiceProviderInterface
 

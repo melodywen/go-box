@@ -1,8 +1,8 @@
 package http
 
 import (
-	"github.com/melodywen/go-box/contracts/foundation"
-	"github.com/melodywen/go-box/foundation/bootstrap"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+	bootstrap2 "github.com/melodywen/go-box/illuminate/foundation/bootstrap"
 	"github.com/sirupsen/logrus"
 )
 
@@ -16,10 +16,10 @@ var bootstraps []foundation.BootstrapInterface
 // init global variable
 func init() {
 	bootstraps = []foundation.BootstrapInterface{
-		bootstrap.NewFoundationProvider(),
-		bootstrap.NewLoadConfiguration(),
-		bootstrap.NewRegisterProviders(),
-		bootstrap.NewBootProviders(),
+		bootstrap2.NewFoundationProvider(),
+		bootstrap2.NewLoadConfiguration(),
+		bootstrap2.NewRegisterProviders(),
+		bootstrap2.NewBootProviders(),
 	}
 }
 

@@ -1,9 +1,9 @@
 package events
 
 import (
-	"github.com/melodywen/go-box/collections"
-	contractsEvents "github.com/melodywen/go-box/contracts/events"
-	"github.com/melodywen/go-box/support"
+	"github.com/melodywen/go-box/illuminate/collections"
+	contractsEvents "github.com/melodywen/go-box/illuminate/contracts/events"
+	"github.com/melodywen/go-box/illuminate/support"
 	"github.com/melodywen/go-ioc/contracts"
 	"reflect"
 	"strings"
@@ -48,7 +48,7 @@ func (dispatcher *Dispatcher) Listen(events interface{}, listener contractsEvent
 			dispatcher.setupWildcardListen(index, listener)
 		} else {
 			if dispatcher.listeners[index] == nil {
-				dispatcher.listeners[index] = make([]contractsEvents.WrapListenerFun, 0)
+				dispatcher.listeners[index] = make([]events.WrapListenerFun, 0)
 			}
 			dispatcher.listeners[index] = append(dispatcher.listeners[index], dispatcher.MakeListener(listener, false))
 		}

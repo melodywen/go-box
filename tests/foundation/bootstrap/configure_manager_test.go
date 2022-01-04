@@ -2,10 +2,10 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/melodywen/go-box/contracts/http"
-	foundation2 "github.com/melodywen/go-box/foundation"
-	"github.com/melodywen/go-box/foundation/bootstrap"
-	http2 "github.com/melodywen/go-box/foundation/http"
+	"github.com/melodywen/go-box/illuminate/contracts/http"
+	foundation2 "github.com/melodywen/go-box/illuminate/foundation"
+	"github.com/melodywen/go-box/illuminate/foundation/bootstrap"
+	http2 "github.com/melodywen/go-box/illuminate/foundation/http"
 	"github.com/sirupsen/logrus"
 	"os"
 	"path"

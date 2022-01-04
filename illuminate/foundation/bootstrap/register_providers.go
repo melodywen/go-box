@@ -1,6 +1,8 @@
 package bootstrap
 
-import "github.com/melodywen/go-box/contracts/foundation"
+import (
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+)
 
 type RegisterProviders struct {
 }

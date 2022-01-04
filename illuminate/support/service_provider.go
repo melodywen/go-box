@@ -1,6 +1,8 @@
 package support
 
-import "github.com/melodywen/go-box/contracts/foundation"
+import (
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+)
 
 // ServiceProvider struct
 type ServiceProvider struct {

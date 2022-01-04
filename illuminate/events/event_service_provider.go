@@ -1,9 +1,9 @@
 package events
 
 import (
-	"github.com/melodywen/go-box/contracts/events"
-	"github.com/melodywen/go-box/contracts/foundation"
-	"github.com/melodywen/go-box/support"
+	"github.com/melodywen/go-box/illuminate/contracts/events"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+	"github.com/melodywen/go-box/illuminate/support"
 )
 
 // EventServiceProvider struct

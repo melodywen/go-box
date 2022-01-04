@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/melodywen/go-box/contracts/foundation"
-	"github.com/melodywen/go-box/contracts/http"
-	foundation2 "github.com/melodywen/go-box/foundation"
-	http2 "github.com/melodywen/go-box/foundation/http"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+	"github.com/melodywen/go-box/illuminate/contracts/http"
+	foundation2 "github.com/melodywen/go-box/illuminate/foundation"
+	http2 "github.com/melodywen/go-box/illuminate/foundation/http"
 	"os"
 )
 

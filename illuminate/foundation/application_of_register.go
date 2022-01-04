@@ -1,7 +1,7 @@
 package foundation
 
 import (
-	"github.com/melodywen/go-box/contracts/support"
+	"github.com/melodywen/go-box/illuminate/contracts/support"
 	"github.com/sirupsen/logrus"
 	"reflect"
 )

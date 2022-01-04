@@ -2,9 +2,9 @@ package foundation
 
 import (
 	"fmt"
-	"github.com/melodywen/go-box/contracts/support"
-	"github.com/melodywen/go-box/events"
-	"github.com/melodywen/go-box/log"
+	"github.com/melodywen/go-box/illuminate/contracts/support"
+	"github.com/melodywen/go-box/illuminate/events"
+	"github.com/melodywen/go-box/illuminate/log"
 	"reflect"
 	"testing"
 )

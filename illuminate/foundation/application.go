@@ -1,12 +1,12 @@
 package foundation
 
 import (
-	events2 "github.com/melodywen/go-box/contracts/events"
-	"github.com/melodywen/go-box/contracts/foundation"
-	log2 "github.com/melodywen/go-box/contracts/log"
-	"github.com/melodywen/go-box/contracts/support"
-	"github.com/melodywen/go-box/events"
-	"github.com/melodywen/go-box/log"
+	events2 "github.com/melodywen/go-box/illuminate/contracts/events"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+	log2 "github.com/melodywen/go-box/illuminate/contracts/log"
+	"github.com/melodywen/go-box/illuminate/contracts/support"
+	events3 "github.com/melodywen/go-box/illuminate/events"
+	"github.com/melodywen/go-box/illuminate/log"
 	container "github.com/melodywen/go-ioc"
 	"github.com/sirupsen/logrus"
 )
@@ -53,7 +53,7 @@ func (app *Application) registerBaseBindings() {
 
 // Register all of the base service providers.
 func (app *Application) registerBaseServiceProviders() {
-	app.Register(events.NewEventServiceProvider(app), false)
+	app.Register(events3.NewEventServiceProvider(app), false)
 	app.Register(log.NewLoggerServiceProvider(app), false)
 	logrus.Warnln("todo: 待实现 RoutingServiceProvider")
 }
@@ -64,7 +64,7 @@ func (app *Application) registerCoreContainerAliases() {
 	var dispatcherInterface events2.DispatcherInterface
 	aliases := map[string][]interface{}{
 		"app":    []interface{}{app, container.Container{}},
-		"events": []interface{}{&dispatcherInterface, events.Dispatcher{}, &events.Dispatcher{}},
+		"events": []interface{}{&dispatcherInterface, events3.Dispatcher{}, &events3.Dispatcher{}},
 		"log":    []interface{}{&loggerInterface},
 	}
 	for key, aliases := range aliases {

@@ -1,9 +1,9 @@
 package log
 
 import (
-	"github.com/melodywen/go-box/contracts/foundation"
-	"github.com/melodywen/go-box/contracts/log"
-	"github.com/melodywen/go-box/support"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
+	"github.com/melodywen/go-box/illuminate/contracts/log"
+	"github.com/melodywen/go-box/illuminate/support"
 )
 
 // LoggerServiceProvider struct

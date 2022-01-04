@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/melodywen/go-box/contracts/http"
+	"github.com/melodywen/go-box/illuminate/contracts/http"
 	"github.com/sirupsen/logrus"
 )
 

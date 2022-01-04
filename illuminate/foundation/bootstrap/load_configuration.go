@@ -2,7 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
-	"github.com/melodywen/go-box/contracts/foundation"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
 	"github.com/spf13/viper"
 	"os"
 	"path"
