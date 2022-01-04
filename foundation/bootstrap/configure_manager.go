@@ -151,5 +151,5 @@ func (manager *ConfigureManager) AllSettings() map[string]interface{} {
 }
 
 func (manager *ConfigureManager) Set(key string, value interface{}) {
-	panic("implement me")
+	manager.viper.Set(key, value)
 }

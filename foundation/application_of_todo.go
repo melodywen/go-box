@@ -16,9 +16,6 @@ func (app *Application) IsDownForMaintenance() {
 	panic("implement me")
 }
 
-func (app *Application) RegisterConfiguredProviders() {
-	panic("implement me")
-}
 
 func (app *Application) RegisterDeferredProvider() {
 	panic("implement me")

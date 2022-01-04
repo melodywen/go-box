@@ -1,9 +1,10 @@
 package foundation
 
+import "fmt"
 
 // Boot the application's service providers.
 func (app *Application) Boot() {
-	if app.isBooted() {
+	if app.IsBooted() {
 		return
 	}
 
@@ -11,7 +12,9 @@ func (app *Application) Boot() {
 	// for any listeners that need to do work after this initial booting gets
 	// finished. This is useful when ordering the boot-up processes we run.
 }
-//  Determine if the application has booted.
-func (app *Application) isBooted()  bool{
-	return app.booted
+
+
+func (app *Application) RegisterConfiguredProviders() {
+
+	fmt.Println(121321)
 }

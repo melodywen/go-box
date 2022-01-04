@@ -18,6 +18,7 @@ func init() {
 	bootstraps = []foundation.BootstrapInterface{
 		bootstrap.NewFoundationProvider(),
 		bootstrap.NewLoadConfiguration(),
+		bootstrap.NewRegisterProviders(),
 		bootstrap.NewBootProviders(),
 	}
 }

@@ -32,6 +32,18 @@ func (app *Application) Register(provider support.ServiceProviderInterface, forc
 	return provider
 }
 
+// IsBooted Determine if the application has booted.
+func (app *Application) IsBooted() bool {
+	return app.booted
+}
+
+// Boot the given service provider.
+func (app *Application) bootProvider(provider support.ServiceProviderInterface) {
+	provider.CallBootingCallbacks()
+	provider.Boot()
+	provider.CallBootedCallbacks()
+}
+
 // GetProvider Get the registered service provider instance if it exists.
 func (app *Application) GetProvider(provider support.ServiceProviderInterface) support.ServiceProviderInterface {
 	result := app.GetProviders(provider)
