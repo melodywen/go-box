@@ -48,7 +48,7 @@ func (dispatcher *Dispatcher) Listen(events interface{}, listener contractsEvent
 			dispatcher.setupWildcardListen(index, listener)
 		} else {
 			if dispatcher.listeners[index] == nil {
-				dispatcher.listeners[index] = make([]events.WrapListenerFun, 0)
+				dispatcher.listeners[index] = make([]contractsEvents.WrapListenerFun, 0)
 			}
 			dispatcher.listeners[index] = append(dispatcher.listeners[index], dispatcher.MakeListener(listener, false))
 		}

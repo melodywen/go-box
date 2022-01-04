@@ -2,9 +2,9 @@ package bootstrap
 
 import (
 	"fmt"
+	config2 "github.com/melodywen/go-box/illuminate/config"
 	"github.com/melodywen/go-box/illuminate/contracts/http"
 	foundation2 "github.com/melodywen/go-box/illuminate/foundation"
-	"github.com/melodywen/go-box/illuminate/foundation/bootstrap"
 	http2 "github.com/melodywen/go-box/illuminate/foundation/http"
 	"github.com/sirupsen/logrus"
 	"os"
@@ -40,8 +40,8 @@ func TestConfigureManager_WriteConfig(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			v := app.Make("config")
-			var config *bootstrap.ConfigureManager
-			if config, ok = v.(*bootstrap.ConfigureManager); !ok {
+			var config *config2.ConfigureManager
+			if config, ok = v.(*config2.ConfigureManager); !ok {
 				logrus.Panicln("获取 config 失败")
 			}
 			value := config.Get("test_struct.driver")

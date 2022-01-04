@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
+	"github.com/melodywen/go-box/illuminate/config"
 	"github.com/melodywen/go-box/illuminate/contracts/foundation"
 	"github.com/spf13/viper"
 	"os"
@@ -10,7 +11,7 @@ import (
 
 type LoadConfiguration struct {
 	app              foundation.ApplicationInterface
-	configureManager *ConfigureManager
+	configureManager *config.ConfigureManager
 }
 
 // NewLoadConfiguration  new an config  bootstrap instance
@@ -21,7 +22,7 @@ func NewLoadConfiguration() *LoadConfiguration {
 // Bootstrap Register services.
 func (bootstrap *LoadConfiguration) Bootstrap(app foundation.ApplicationInterface) {
 	bootstrap.app = app
-	bootstrap.configureManager = NewConfigureManager(app)
+	bootstrap.configureManager = config.NewConfigureManager(app)
 
 	// Next we will spin through all the configuration files in the configuration
 	// directory and load each one into the repository. This will make all of the
@@ -33,7 +34,7 @@ func (bootstrap *LoadConfiguration) Bootstrap(app foundation.ApplicationInterfac
 }
 
 //loadConfigurationFiles load the configuration items from all the files.
-func (bootstrap *LoadConfiguration) loadConfigurationFiles(app foundation.ApplicationInterface, manager *ConfigureManager) {
+func (bootstrap *LoadConfiguration) loadConfigurationFiles(app foundation.ApplicationInterface, manager *config.ConfigureManager) {
 	files := bootstrap.getConfigurationFiles(app)
 	configPath := app.ConfigPath("")
 	allSuffix := map[string]bool{
