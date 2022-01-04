@@ -19,16 +19,23 @@ type Application struct {
 	hasBeenBootstrapped bool                               //Indicates if the application has been bootstrapped before.
 	serviceProviders    []support.ServiceProviderInterface // All of the registered service providers.
 	loadedProviders     map[string]bool                    //The names of the loaded service providers.
-	Log                 log2.LoggerInterface
-	booted              bool
+
+	basePath string // base path for the application.
+
+	Log    log2.LoggerInterface
+	booted bool
 }
 
 // NewApplication Create a new Illuminate application instance.
-func NewApplication() *Application {
+func NewApplication(basePath string) *Application {
 	app := &Application{
 		Container:        *container.NewContainer(),
 		serviceProviders: []support.ServiceProviderInterface{},
 		loadedProviders:  map[string]bool{},
+	}
+
+	if basePath != "" {
+		app.setBasePath(basePath)
 	}
 
 	app.registerBaseBindings()

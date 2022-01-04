@@ -5,6 +5,7 @@ import (
 	"github.com/melodywen/go-box/contracts/http"
 	foundation2 "github.com/melodywen/go-box/foundation"
 	http2 "github.com/melodywen/go-box/foundation/http"
+	"os"
 )
 
 // App construction app instance
@@ -12,9 +13,10 @@ var App foundation.ApplicationInterface
 
 // init App
 func init() {
-	app := foundation2.NewApplication()
+	dir, _ := os.Getwd()
+	app := foundation2.NewApplication(dir)
 	App = app
-	app.BootstrapOpenListen()
+	//app.BootstrapOpenListen()
 	var httpKernel http.KernelInterface
 	App.Singleton(&httpKernel, http2.NewKernel)
 }

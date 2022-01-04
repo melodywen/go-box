@@ -17,17 +17,17 @@ type ApplicationInterface interface {
 	//Version Get the version number of the application.
 	Version() string
 	//BasePath Get the base path of the Laravel installation.
-	BasePath()
+	BasePath(pathSuffix string) string
 	// BootstrapPath Get the path to the bootstrap directory.
-	BootstrapPath()
+	BootstrapPath(pathSuffix string) string
 	// ConfigPath Get the path to the application configuration files.
-	ConfigPath()
+	ConfigPath(pathSuffix string) string
 	// DatabasePath Get the path to the database directory.
-	DatabasePath()
+	DatabasePath(pathSuffix string) string
 	// ResourcePath Get the path to the resources directory.
-	ResourcePath()
+	ResourcePath(pathSuffix string) string
 	// StoragePath Get the path to the storage directory.
-	StoragePath()
+	StoragePath() string
 	// Environment Get or check the current application environment.
 	Environment()
 	// RunningInConsole Determine if the application is running in the console.

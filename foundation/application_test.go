@@ -10,7 +10,7 @@ import (
 )
 
 func TestApplication_GetProviders(t *testing.T) {
-	app := NewApplication()
+	app := NewApplication("")
 
 	type fields struct {
 		serviceProviders []support.ServiceProviderInterface
@@ -67,7 +67,7 @@ func TestApplication_Version(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			app := NewApplication()
+			app := NewApplication("")
 			if got := app.Version(); got != tt.want {
 				t.Errorf("Version() = %v, want %v", got, tt.want)
 			}

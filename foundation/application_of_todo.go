@@ -1,29 +1,5 @@
 package foundation
 
-func (app *Application) BasePath() {
-	panic("implement me")
-}
-
-func (app *Application) BootstrapPath() {
-	panic("implement me")
-}
-
-func (app *Application) ConfigPath() {
-	panic("implement me")
-}
-
-func (app *Application) DatabasePath() {
-	panic("implement me")
-}
-
-func (app *Application) ResourcePath() {
-	panic("implement me")
-}
-
-func (app *Application) StoragePath() {
-	panic("implement me")
-}
-
 func (app *Application) Environment() {
 	panic("implement me")
 }
