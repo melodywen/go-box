@@ -21,7 +21,7 @@ func init() {
 	app.Instance("defer-services",config.DeferServices)
 
 	App = app
-	//app.BootstrapOpenListen()
+	app.BootstrapOpenListen()
 	var httpKernel http.KernelInterface
 	App.Singleton(&httpKernel, http2.NewKernel)
 }

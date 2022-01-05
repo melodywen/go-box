@@ -11,9 +11,9 @@ var DeferServices map[string]support.ServiceProviderInterface
 
 func init() {
 	EagerServices = []support.ServiceProviderInterface{
-
+		cache.NewCacheServiceProvider(),
 	}
 	DeferServices = map[string]support.ServiceProviderInterface{
-		"cache":cache.NewCacheServiceProvider(),
+		//"cache":cache.NewCacheServiceProvider(),
 	}
 }

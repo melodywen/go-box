@@ -2,7 +2,6 @@ package foundation
 
 import (
 	"github.com/melodywen/go-box/illuminate/contracts/support"
-	"github.com/sirupsen/logrus"
 	"reflect"
 )
 
@@ -12,6 +11,7 @@ func (app *Application) Register(provider support.ServiceProviderInterface, forc
 		return registered
 	}
 
+	provider.SetApplication(app)
 	provider.Register()
 
 	// If there are bindings / singletons set as properties on the provider we
@@ -27,7 +27,7 @@ func (app *Application) Register(provider support.ServiceProviderInterface, forc
 	// the provider class so it has an opportunity to do its boot logic and
 	// will be ready for any usage by this developer's application logic.
 	if app.IsBooted() {
-		logrus.Warnln("todo 待实现 bootProvider")
+		app.bootProvider(provider)
 	}
 	return provider
 }
@@ -36,7 +36,6 @@ func (app *Application) Register(provider support.ServiceProviderInterface, forc
 func (app *Application) IsBooted() bool {
 	return app.booted
 }
-
 
 // GetProvider Get the registered service provider instance if it exists.
 func (app *Application) GetProvider(provider support.ServiceProviderInterface) support.ServiceProviderInterface {

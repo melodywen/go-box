@@ -1,6 +1,8 @@
 package foundation
 
 import (
+	"fmt"
+	"github.com/melodywen/go-box/illuminate/contracts/foundation"
 	"github.com/melodywen/go-box/illuminate/contracts/support"
 )
 
@@ -13,6 +15,21 @@ func (app *Application) Boot() {
 	// Once the application has booted we will also fire some "booted" callbacks
 	// for any listeners that need to do work after this initial booting gets
 	// finished. This is useful when ordering the boot-up processes we run.
+	app.fireAppCallbacks(app.bootingCallbacks)
+
+	for _, provider := range app.serviceProviders {
+		app.bootProvider(provider)
+	}
+	app.booted = true
+
+	app.fireAppCallbacks(app.bootedCallbacks)
+}
+
+// fireAppCallbacks Call the booting callbacks for the application.
+func (app *Application) fireAppCallbacks(callbacks []func(app foundation.ApplicationInterface)) {
+	for _, callback := range callbacks {
+		callback(app)
+	}
 }
 
 // RegisterConfiguredProviders Register all the configured providers.
@@ -29,6 +46,7 @@ func (app *Application) AddDeferredServices(services map[string]support.ServiceP
 
 // ResolveCallback resolve the given type from the container.
 func (app *Application) ResolveCallback(abstract string) {
+	fmt.Println("resolve callback", abstract)
 	app.loadDeferredProviderIfNeeded(app.GetAlias(abstract))
 }
 
@@ -73,14 +91,14 @@ func (app *Application) RegisterDeferredProvider(provider support.ServiceProvide
 	app.Register(provider, false)
 
 	if !app.IsBooted() {
-		app.Booting(func() {
+		app.Booting(func(application foundation.ApplicationInterface) {
 			app.bootProvider(provider)
 		})
 	}
 }
 
 // Booting Register a new boot listener.
-func (app *Application) Booting(callback func()) {
+func (app *Application) Booting(callback func(app foundation.ApplicationInterface)) {
 	app.bootingCallbacks = append(app.bootingCallbacks, callback)
 }
 

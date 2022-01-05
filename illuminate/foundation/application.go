@@ -25,8 +25,8 @@ type Application struct {
 	deferredServices map[string]support.ServiceProviderInterface //The deferred services and their providers.
 
 	booted           bool                                        //Indicates if the application has "booted".
-	bootingCallbacks []func() //The array of booting callbacks.
-	bootedCallbacks  []func() //The array of booted callbacks.
+	bootingCallbacks []func(app foundation.ApplicationInterface) //The array of booting callbacks.
+	bootedCallbacks  []func(app foundation.ApplicationInterface) //The array of booted callbacks.
 
 	Log log2.LoggerInterface
 }

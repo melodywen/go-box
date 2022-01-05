@@ -49,7 +49,7 @@ type ApplicationInterface interface {
 	// Boot the application's service providers.
 	Boot()
 	// Booting Register a new boot listener.
-	Booting(func())
+	Booting(func(app ApplicationInterface))
 	// Booted Register a new "booted" listener.
 	Booted()
 	// BootstrapWith Run the given array of bootstrap classes.
