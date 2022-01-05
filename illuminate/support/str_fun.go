@@ -5,11 +5,12 @@ import (
 	"strings"
 )
 
+// StrFun str fun struct
 type StrFun struct {
 }
 
 // Is Determine if a given string matches a given pattern.
-func (_ StrFun) Is(pattern string, value string) bool {
+func (fun StrFun) Is(pattern string, value string) bool {
 	if pattern == "" {
 		return false
 	}

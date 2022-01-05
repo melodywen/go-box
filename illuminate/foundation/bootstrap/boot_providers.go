@@ -4,6 +4,7 @@ import (
 	"github.com/melodywen/go-box/illuminate/contracts/foundation"
 )
 
+// BootProviders boot provider struct
 type BootProviders struct {
 	app foundation.ApplicationInterface
 }

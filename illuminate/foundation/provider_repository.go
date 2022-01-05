@@ -5,10 +5,12 @@ import (
 	"github.com/melodywen/go-box/illuminate/contracts/support"
 )
 
+// ProviderRepository provider repository struct
 type ProviderRepository struct {
 	app foundation.ApplicationInterface
 }
 
+// NewProviderRepository new an instance
 func NewProviderRepository(app foundation.ApplicationInterface) *ProviderRepository {
 	return &ProviderRepository{app: app}
 }

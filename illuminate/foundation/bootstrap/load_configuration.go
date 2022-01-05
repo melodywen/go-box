@@ -9,6 +9,7 @@ import (
 	"path"
 )
 
+// LoadConfiguration load configure struct
 type LoadConfiguration struct {
 	app              foundation.ApplicationInterface
 	configureManager *config.ConfigureManager

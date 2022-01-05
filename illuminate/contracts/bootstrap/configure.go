@@ -2,6 +2,7 @@ package bootstrap
 
 import "time"
 
+// ConfigureInterface configure interface
 type ConfigureInterface interface {
 	Get(key string) interface{}
 	GetBool(key string) bool

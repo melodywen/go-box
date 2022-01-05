@@ -10,6 +10,7 @@ type SchoolServiceProvider struct {
 	support.ServiceProvider
 }
 
+// NewSchoolServiceProvider new an instance
 func NewSchoolServiceProvider() *SchoolServiceProvider {
 	return &SchoolServiceProvider{}
 }
