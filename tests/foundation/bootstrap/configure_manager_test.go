@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"fmt"
+	"github.com/melodywen/go-box/config"
 	config2 "github.com/melodywen/go-box/illuminate/config"
 	"github.com/melodywen/go-box/illuminate/contracts/http"
 	foundation2 "github.com/melodywen/go-box/illuminate/foundation"
@@ -26,20 +27,22 @@ func TestConfigureManager_WriteConfig(t *testing.T) {
 	dir = path.Join(dir, "../../../")
 	app := foundation2.NewApplication(dir)
 
-	//app.BootstrapOpenListen()
+	app.BootstrapOpenListen()
+	app.Instance("eager-services",config.EagerServices)
+	app.Instance("defer-services",config.DeferServices)
 	var httpKernel http.KernelInterface
 	app.Singleton(&httpKernel, http2.NewKernel)
-
 	var ok bool
 	k := app.Make(&httpKernel)
+
 	if httpKernel, ok = k.(http.KernelInterface); !ok {
 		logrus.Panicln("获取 http kernel 失败")
 	}
 	httpKernel.Handle()
-
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			v := app.Make("config")
+
 			var config *config2.ConfigureManager
 			if config, ok = v.(*config2.ConfigureManager); !ok {
 				logrus.Panicln("获取 config 失败")

@@ -1,7 +1,6 @@
 package foundation
 
 import (
-	"fmt"
 	"github.com/melodywen/go-box/illuminate/contracts/foundation"
 	"github.com/melodywen/go-box/illuminate/contracts/support"
 )
@@ -46,7 +45,6 @@ func (app *Application) AddDeferredServices(services map[string]support.ServiceP
 
 // ResolveCallback resolve the given type from the container.
 func (app *Application) ResolveCallback(abstract string) {
-	fmt.Println("resolve callback", abstract)
 	app.loadDeferredProviderIfNeeded(app.GetAlias(abstract))
 }
 

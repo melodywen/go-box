@@ -17,7 +17,7 @@ func main() {
 
 	httpKernel.Handle()
 
-	App.Make("cache")
+	App.Make("school")
 
 	fmt.Println(httpKernel)
 

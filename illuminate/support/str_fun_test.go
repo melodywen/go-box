@@ -40,6 +40,13 @@ func TestStrFun_Is(t *testing.T) {
 				value:   "melody",
 			},
 			want: false,
+		}, {
+			name: "测试 正则匹配完全相等",
+			args: args{
+				pattern: "melody",
+				value:   "melody",
+			},
+			want: true,
 		},
 	}
 	for _, tt := range tests {
