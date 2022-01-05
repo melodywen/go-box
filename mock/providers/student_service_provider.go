@@ -10,6 +10,7 @@ type StudentServiceProvider struct {
 	support.ServiceProvider
 }
 
+// NewStudentServiceProvider new an instance
 func NewStudentServiceProvider() *StudentServiceProvider {
 	return &StudentServiceProvider{}
 }
@@ -26,6 +27,4 @@ func (provider *StudentServiceProvider) Register() {
 	provider.App.Bind("student", func(teacher Teacher) {
 		fmt.Println(teacher)
 	}, true)
-
-
 }

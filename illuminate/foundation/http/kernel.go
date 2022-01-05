@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// Kernel kernel struct
 type Kernel struct {
 	app           foundation.ApplicationInterface
 	bootstrappers []foundation.BootstrapInterface
@@ -55,10 +56,12 @@ func (k *Kernel) Handle() {
 	k.Bootstrap()
 }
 
+// Terminate not implement
 func (k *Kernel) Terminate() {
 	panic("implement me")
 }
 
+// GetApplication not implement
 func (k *Kernel) GetApplication() {
 	panic("implement me")
 }

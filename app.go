@@ -17,8 +17,8 @@ func init() {
 	dir, _ := os.Getwd()
 
 	app := foundation2.NewApplication(dir)
-	app.Instance("eager-services",config.EagerServices)
-	app.Instance("defer-services",config.DeferServices)
+	app.Instance("eager-services", config.EagerServices)
+	app.Instance("defer-services", config.DeferServices)
 
 	App = app
 	app.BootstrapOpenListen()

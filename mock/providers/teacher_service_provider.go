@@ -10,11 +10,13 @@ type TeacherServiceProvider struct {
 	support.ServiceProvider
 }
 
+// Teacher a teacher
 type Teacher struct {
 	name     string
 	describe string
 }
 
+// NewTeacherServiceProvider new instance
 func NewTeacherServiceProvider() *TeacherServiceProvider {
 	return &TeacherServiceProvider{}
 }

@@ -4,6 +4,7 @@ import (
 	"reflect"
 )
 
+// ArrFun struct arr fun
 type ArrFun struct {
 }
 

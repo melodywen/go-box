@@ -81,6 +81,7 @@ func (app *Application) registerCoreContainerAliases() {
 	}
 }
 
+//Version Get the version number of the application.
 func (app *Application) Version() string {
 	return version
 }

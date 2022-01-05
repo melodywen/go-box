@@ -28,8 +28,8 @@ func TestConfigureManager_WriteConfig(t *testing.T) {
 	app := foundation2.NewApplication(dir)
 
 	app.BootstrapOpenListen()
-	app.Instance("eager-services",config.EagerServices)
-	app.Instance("defer-services",config.DeferServices)
+	app.Instance("eager-services", config.EagerServices)
+	app.Instance("defer-services", config.DeferServices)
 	var httpKernel http.KernelInterface
 	app.Singleton(&httpKernel, http2.NewKernel)
 	var ok bool
