@@ -16,9 +16,10 @@ var version string = "1.0.0"
 // Application app struct
 type Application struct {
 	container.Container
-	hasBeenBootstrapped bool                               //Indicates if the application has been bootstrapped before.
-	serviceProviders    []support.ServiceProviderInterface // All of the registered service providers.
-	loadedProviders     map[string]bool                    //The names of the loaded service providers.
+	hasBeenBootstrapped bool                                        //Indicates if the application has been bootstrapped before.
+	serviceProviders    []support.ServiceProviderInterface          // All of the registered service providers.
+	loadedProviders     map[string]bool                             //The names of the loaded service providers.
+	deferredServices    map[string]support.ServiceProviderInterface //The deferred services and their providers.
 
 	basePath string // base path for the application.
 
@@ -29,10 +30,11 @@ type Application struct {
 // NewApplication Create a new Illuminate application instance.
 func NewApplication(basePath string) *Application {
 	app := &Application{
-		Container:        *container.NewContainer(),
 		serviceProviders: []support.ServiceProviderInterface{},
 		loadedProviders:  map[string]bool{},
+		deferredServices: map[string]support.ServiceProviderInterface{},
 	}
+	app.Container = *container.NewContainerOfChild(app)
 
 	if basePath != "" {
 		app.setBasePath(basePath)
@@ -48,7 +50,8 @@ func NewApplication(basePath string) *Application {
 func (app *Application) registerBaseBindings() {
 	var App foundation.ApplicationInterface
 	app.Instance(&App, app)
-	app.Instance(&app, app)
+	app.Instance(*app, app)
+	app.Instance(app, app)
 }
 
 // Register all of the base service providers.

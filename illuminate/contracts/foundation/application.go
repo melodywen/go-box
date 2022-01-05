@@ -36,8 +36,10 @@ type ApplicationInterface interface {
 	RunningUnitTests()
 	// IsDownForMaintenance Determine if the application is currently down for maintenance.
 	IsDownForMaintenance()
-	// RegisterConfiguredProviders Register all of the configured providers.
+	// RegisterConfiguredProviders Register all the configured providers.
 	RegisterConfiguredProviders()
+	//AddDeferredServices Add an array of services to the application's deferred services.
+	AddDeferredServices(services map[string]support.ServiceProviderInterface)
 	//Register a service provider with the application.
 	Register(provider support.ServiceProviderInterface, force bool) support.ServiceProviderInterface
 	// RegisterDeferredProvider Register a deferred provider and service.

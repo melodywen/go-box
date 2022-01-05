@@ -9,14 +9,15 @@ import (
 func main() {
 	var httpKernel http.KernelInterface
 	var ok bool
-    k :=	App.Make(&httpKernel)
+	k := App.Make(&httpKernel)
 
-	if httpKernel,ok =  k.(http.KernelInterface);!ok{
+	if httpKernel, ok = k.(http.KernelInterface); !ok {
 		logrus.Panicln("获取 http kernel 失败")
 	}
 
 	httpKernel.Handle()
 
+	App.Make("cache")
 
 	fmt.Println(httpKernel)
 
