@@ -51,7 +51,7 @@ type ApplicationInterface interface {
 	// Booting Register a new boot listener.
 	Booting(func(app ApplicationInterface))
 	// Booted Register a new "booted" listener.
-	Booted()
+	Booted(callback func(app ApplicationInterface))
 	// BootstrapWith Run the given array of bootstrap classes.
 	BootstrapWith(bootstrappers []BootstrapInterface)
 	// GetLocale Get the current application locale.

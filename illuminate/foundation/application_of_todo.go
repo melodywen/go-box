@@ -16,12 +16,8 @@ func (app *Application) IsDownForMaintenance() {
 	panic("implement me")
 }
 
-
+// ResolveProvider Resolve a service provider instance from the class name.
 func (app *Application) ResolveProvider() {
-	panic("implement me")
-}
-
-func (app *Application) Booted() {
 	panic("implement me")
 }
 
@@ -30,10 +26,6 @@ func (app *Application) GetLocale() {
 }
 
 func (app *Application) GetNamespace() {
-	panic("implement me")
-}
-
-func (app *Application) LoadDeferredProviders() {
 	panic("implement me")
 }
 

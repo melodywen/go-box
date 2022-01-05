@@ -108,3 +108,23 @@ func (app *Application) bootProvider(provider support.ServiceProviderInterface) 
 	provider.Boot()
 	provider.CallBootedCallbacks()
 }
+
+// Booted Register a new "booted" listener.
+func (app *Application) Booted(callback func(app foundation.ApplicationInterface)) {
+	app.bootedCallbacks = append(app.bootedCallbacks, callback)
+	if app.IsBooted() {
+		callback(app)
+	}
+}
+
+// LoadDeferredProviders Load and boot all the remaining deferred providers.
+func (app *Application) LoadDeferredProviders() {
+	// We will simply spin through each of the deferred providers and register each
+	// one and boot them if the application has booted. This should make each of
+	// the remaining services available to this application for immediate use.
+	for service, _ := range app.deferredServices {
+		app.loadDeferredProvider(service)
+	}
+
+	app.deferredServices = map[string]support.ServiceProviderInterface{}
+}
