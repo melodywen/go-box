@@ -43,13 +43,13 @@ type ApplicationInterface interface {
 	//Register a service provider with the application.
 	Register(provider support.ServiceProviderInterface, force bool) support.ServiceProviderInterface
 	// RegisterDeferredProvider Register a deferred provider and service.
-	RegisterDeferredProvider()
+	RegisterDeferredProvider(provider support.ServiceProviderInterface, service string)
 	// ResolveProvider Resolve a service provider instance from the class name.
 	ResolveProvider()
 	// Boot the application's service providers.
 	Boot()
 	// Booting Register a new boot listener.
-	Booting()
+	Booting(func())
 	// Booted Register a new "booted" listener.
 	Booted()
 	// BootstrapWith Run the given array of bootstrap classes.

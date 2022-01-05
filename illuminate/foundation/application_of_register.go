@@ -26,7 +26,7 @@ func (app *Application) Register(provider support.ServiceProviderInterface, forc
 	// If the application has already booted, we will call this boot method on
 	// the provider class so it has an opportunity to do its boot logic and
 	// will be ready for any usage by this developer's application logic.
-	if app.IsBooted() || true {
+	if app.IsBooted() {
 		logrus.Warnln("todo 待实现 bootProvider")
 	}
 	return provider
@@ -37,12 +37,6 @@ func (app *Application) IsBooted() bool {
 	return app.booted
 }
 
-// Boot the given service provider.
-func (app *Application) bootProvider(provider support.ServiceProviderInterface) {
-	provider.CallBootingCallbacks()
-	provider.Boot()
-	provider.CallBootedCallbacks()
-}
 
 // GetProvider Get the registered service provider instance if it exists.
 func (app *Application) GetProvider(provider support.ServiceProviderInterface) support.ServiceProviderInterface {

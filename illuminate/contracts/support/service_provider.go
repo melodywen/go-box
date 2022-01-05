@@ -14,4 +14,6 @@ type ServiceProviderInterface interface {
 	CallBootingCallbacks()
 	// CallBootedCallbacks Call the registered booted callbacks.
 	CallBootedCallbacks()
+	// SetApplication set app Application interface
+	SetApplication(app interface{})
 }

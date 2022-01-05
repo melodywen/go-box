@@ -16,15 +16,19 @@ var version string = "1.0.0"
 // Application app struct
 type Application struct {
 	container.Container
-	hasBeenBootstrapped bool                                        //Indicates if the application has been bootstrapped before.
-	serviceProviders    []support.ServiceProviderInterface          // All of the registered service providers.
-	loadedProviders     map[string]bool                             //The names of the loaded service providers.
-	deferredServices    map[string]support.ServiceProviderInterface //The deferred services and their providers.
 
-	basePath string // base path for the application.
+	basePath            string // base path for the application.
+	hasBeenBootstrapped bool   //Indicates if the application has been bootstrapped before.
 
-	Log    log2.LoggerInterface
-	booted bool
+	serviceProviders []support.ServiceProviderInterface          // All of the registered service providers.
+	loadedProviders  map[string]bool                             //The names of the loaded service providers.
+	deferredServices map[string]support.ServiceProviderInterface //The deferred services and their providers.
+
+	booted           bool                                        //Indicates if the application has "booted".
+	bootingCallbacks []func() //The array of booting callbacks.
+	bootedCallbacks  []func() //The array of booted callbacks.
+
+	Log log2.LoggerInterface
 }
 
 // NewApplication Create a new Illuminate application instance.

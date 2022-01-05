@@ -48,3 +48,10 @@ func (provider *ServiceProvider) CallBootedCallbacks() {
 		callback()
 	}
 }
+
+// SetApplication set app Application interface
+func (provider *ServiceProvider) SetApplication(app interface{}) {
+	if value, ok := app.(foundation.ApplicationInterface); ok {
+		provider.App = value
+	}
+}

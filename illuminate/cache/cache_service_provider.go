@@ -3,6 +3,7 @@ package cache
 import (
 	"fmt"
 	"github.com/melodywen/go-box/illuminate/support"
+	"reflect"
 )
 
 //CacheServiceProvider d
@@ -20,5 +21,6 @@ func (provider *CacheServiceProvider) Boot() {
 
 // Register any application services.
 func (provider *CacheServiceProvider) Register() {
-	fmt.Println("注册cache")
+	fmt.Println(reflect.TypeOf(provider.App))
+	fmt.Println("注册cache", provider)
 }
