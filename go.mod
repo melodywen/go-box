@@ -23,4 +23,4 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
-replace github.com/melodywen/go-ioc v1.1.3 => ../go-ioc
+//replace github.com/melodywen/go-ioc v1.1.3 => ../go-ioc
