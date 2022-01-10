@@ -1,6 +1,7 @@
 package foundation
 
 import (
+	"github.com/melodywen/go-box/illuminate/contracts/bootstrap"
 	events2 "github.com/melodywen/go-box/illuminate/contracts/events"
 	"github.com/melodywen/go-box/illuminate/contracts/foundation"
 	log2 "github.com/melodywen/go-box/illuminate/contracts/log"
@@ -68,11 +69,13 @@ func (app *Application) registerBaseServiceProviders() {
 // Register the core class aliases in the container.
 func (app *Application) registerCoreContainerAliases() {
 	var loggerInterface log2.LoggerInterface
+	var config bootstrap.ConfigureInterface
 	var dispatcherInterface events2.DispatcherInterface
 	aliases := map[string][]interface{}{
 		"app":    []interface{}{app, container.Container{}},
 		"events": []interface{}{&dispatcherInterface, events3.Dispatcher{}, &events3.Dispatcher{}},
 		"log":    []interface{}{&loggerInterface},
+		"config": []interface{}{&config},
 	}
 	for key, aliases := range aliases {
 		for _, alias := range aliases {
